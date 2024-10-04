@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StudyLog } from '../components';
 import appwriteService from '../appwrite/backend'
+import {TotalDuration} from '../components';
 
 function Stopwatch() {
   const [time, setTime] = useState(0);
@@ -41,29 +42,35 @@ function Stopwatch() {
 
     const date = new Date();
     const today = date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
     });
 
     const currentTimestamp = getTimeString();
     const savedRecords = JSON.parse(localStorage.getItem('study-record')) || {};
 
-    if (savedRecords[today])//if there is some entries in the local storage
-        savedRecords[today].push(currentTimestamp);
-    else 
-        savedRecords[today] = [currentTimestamp];
+    console.log(`today: ${today}`);
 
-    const savedRecordString = JSON.stringify(savedRecords)
-    localStorage.setItem('study-record', savedRecordString);
+    // Always initialize savedRecords with only today's record
+    const todayRecords = savedRecords[today] || [];
+    todayRecords.push(currentTimestamp);
+    
+    savedRecords[today] = todayRecords;
 
-    if(currentUser)
-        appwriteService.addDuration(currentUser,savedRecordString)
+    // Set local storage with only today's record
+    localStorage.setItem('study-record', JSON.stringify({ [today]: todayRecords }));
+
+    // If a user is logged in, save the timestamps to the database
+    if (currentUser) {
+        appwriteService.addDuration(currentUser, JSON.stringify({ [today]: todayRecords }));
+    }
 
     // Reset timer once saved
     setTime(0);
     setIsActive(false);
-  };
+};
+
 
   // Function to reset the stopwatch
   const reset = () => {
@@ -76,6 +83,7 @@ function Stopwatch() {
       className={`flex flex-col md:flex-row justify-center items-center h-screen px-10 
       ${currentTheme === 'light' ? 'bg-white' : 'bg-blue-950'}`}
     >
+        <TotalDuration />
       {/* Centering the Stopwatch */}
       <div className="flex-grow flex justify-center">
         <div className="flex flex-col justify-center items-center">
