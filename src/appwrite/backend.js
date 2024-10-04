@@ -11,7 +11,7 @@ export class Service{
         .setEndpoint(conf.appwriteEndpoint)
         .setProject(conf.appwriteProjectId)
 
-        this.databases = new Databases(client)
+        this.databases = new Databases(this.client)
     }
 
     async createAccount(email,password)
@@ -33,21 +33,37 @@ export class Service{
         }
     }
 
-    async doesAccountExist(email)
+    async doesAccountExist(email) {
+    try {
+      const documents = await this.databases.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteCollectionId,
+        [`email=${email}`]
+      );
+      return documents.total > 0 ? documents.documents[0] : null; // Return document if exists
+    } catch (error) {
+      console.log(`Unable to list documents ${error}`);
+      throw error;
+    }
+  }
+
+    async authenticateUser(email,password)
     {
-        try {
-            const documents = await this.databases.listDocuments(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                [
-                    // Filter to check if the email matches
-                    `email=${email}`
-                ]
-            )
-            return documents.total > 0 //return true if account exists
-        } catch (error) {
-            console.log(`Unable to list documents ${error}`)
-            throw error
+        const user = await this.doesAccountExist(email)
+        if(user)
+        {
+            if(user.password === password)
+            {
+                return true
+            }
+            else
+            {
+                throw new Error("incorrect password")
+            }
+        }
+        else
+        {
+            throw new Error("user doesnt exists")
         }
     }
 }
