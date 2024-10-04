@@ -5,6 +5,7 @@ import StudyLog from "./StudyLog";
 import LoginForm from "./LoginForm";
 import LoginButton from "./LoginButton";
 import SignupForm from "./SignupForm";
+import UserDisplay from "./UserDisplay";
 
 export {
     Stopwatch,
@@ -13,5 +14,6 @@ export {
     StudyLog,
     LoginForm,
     LoginButton,
-    SignupForm
+    SignupForm,
+    UserDisplay
 }

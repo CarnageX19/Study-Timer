@@ -3,6 +3,7 @@ import ThemeToggler from './ThemeToggler';
 import { useSelector } from 'react-redux';
 import LoginButton from './LoginButton';
 import { useNavigate } from 'react-router-dom';
+import UserDisplay from './UserDisplay';
 
 function Header() {
   const currentTheme = useSelector((state)=>state.theme.theme)
@@ -18,6 +19,7 @@ function Header() {
         ${currentTheme=='light'?'text-black':'text-white'}
         font-semibold`} onClick={headHome}>Study Timer</h1>
       <div className="absolute top-4 right-4 flex items-center space-x-4">
+        <UserDisplay />
         <LoginButton />
         <ThemeToggler />
       </div>

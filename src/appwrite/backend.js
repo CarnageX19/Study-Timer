@@ -1,4 +1,4 @@
-import { Client, Databases, ID } from "appwrite";
+import { Client, Databases, ID,Query } from "appwrite";
 import conf from "../global-configs/conf";
 
 export class Service{
@@ -16,15 +16,16 @@ export class Service{
 
     async createAccount(email,password)
     {
+        const emailKey = email.replace(/[@.]/g, "-");
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                email,//email is document key
+                emailKey,//email is document key
                 {
                     email,
-                    password:password,
-                    records:{}
+                    password,
+                    records:""
                 }
             )
         } catch (error) {
@@ -34,16 +35,18 @@ export class Service{
     }
 
     async doesAccountExist(email) {
-    try {
+    
+    const query = Query.equal("email",email)
+        try {
       const documents = await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
-        [`email=${email}`]
+        [query]
       );
       return documents.total > 0 ? documents.documents[0] : null; // Return document if exists
     } catch (error) {
       console.log(`Unable to list documents ${error}`);
-      throw error;
+      return null
     }
   }
 

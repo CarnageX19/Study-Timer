@@ -37,7 +37,7 @@ function LoginForm() {
       <div className={`${currentTheme==='light'?'bg-white':'bg-blue-800'} 
         p-6 rounded-lg shadow-lg w-96`}>
         <h2 className={`
-            ${currentTheme==='light'?'text-white':'text-black'}
+            ${currentTheme==='light'?'text-black':'text-white'}
             text-2xl font-semibold mb-4 text-center`}>Login</h2>
         
         <input

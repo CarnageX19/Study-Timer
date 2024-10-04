@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/backend";
+import { login } from "../features/AuthSlice";
 
 function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const currentTheme = useSelector((state) => state.theme.theme);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleSignup = async () => {
     try {
@@ -19,10 +20,8 @@ function SignupForm() {
         setErrorMessage("Account already exists. Please login.");
       } else {
         await appwriteService.createAccount(email, password);
-        setSuccessMessage("Account created successfully! Redirecting to login...");
-        setTimeout(() => {
-          navigate("/login"); // Redirect to login after account creation
-        }, 2000);
+        dispatch(login({email}))
+        navigate("/")
       }
     } catch (error) {
       setErrorMessage(error.message); // Show error message
@@ -69,7 +68,6 @@ function SignupForm() {
         </button>
 
         {errorMessage && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
-        {successMessage && <p className="text-green-500 text-center mt-4">{successMessage}</p>}
       </div>
     </div>
   );
