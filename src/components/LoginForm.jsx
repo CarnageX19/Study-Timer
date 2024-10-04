@@ -17,6 +17,7 @@ function LoginForm() {
       
       if (isAuthenticated) {
         dispatch(login({ email }));
+        await appwriteService.syncLocalStorage(email)//update local storage with database entries
         navigate("/"); // Redirect to home after login
       }
       else

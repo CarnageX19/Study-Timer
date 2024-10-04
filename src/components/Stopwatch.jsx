@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StudyLog } from '../components';
+import appwriteService from '../appwrite/backend'
 
 function Stopwatch() {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const currentTheme = useSelector((state) => state.theme.theme);
-
+  const currentUser = useSelector((state)=>state.auth.email)
   // Timer functionality to count seconds
   useEffect(() => {
     let interval = null;
@@ -48,10 +49,16 @@ function Stopwatch() {
     const currentTimestamp = getTimeString();
     const savedRecords = JSON.parse(localStorage.getItem('study-record')) || {};
 
-    if (savedRecords[today]) savedRecords[today].push(currentTimestamp);
-    else savedRecords[today] = [currentTimestamp];
+    if (savedRecords[today])//if there is some entries in the local storage
+        savedRecords[today].push(currentTimestamp);
+    else 
+        savedRecords[today] = [currentTimestamp];
 
-    localStorage.setItem('study-record', JSON.stringify(savedRecords));
+    const savedRecordString = JSON.stringify(savedRecords)
+    localStorage.setItem('study-record', savedRecordString);
+
+    if(currentUser)
+        appwriteService.addDuration(currentUser,savedRecordString)
 
     // Reset timer once saved
     setTime(0);
