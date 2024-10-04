@@ -16,13 +16,14 @@ export class Service{
 
     async createAccount(email,password)
     {
-        const uniqueID = ID.unique()
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
+                email,//email is document key
                 {
-                    userID: uniqueID,
+                    email,
+                    password:password,
                     records:{}
                 }
             )
@@ -32,4 +33,24 @@ export class Service{
         }
     }
 
+    async doesAccountExist(email)
+    {
+        try {
+            const documents = await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                [
+                    // Filter to check if the email matches
+                    `email=${email}`
+                ]
+            )
+            return documents.total > 0 //return true if account exists
+        } catch (error) {
+            console.log(`Unable to list documents ${error}`)
+            throw error
+        }
+    }
 }
+
+const appwriteService = new Service()
+export default appwriteService
