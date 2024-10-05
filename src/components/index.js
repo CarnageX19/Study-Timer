@@ -7,6 +7,7 @@ import LoginButton from "./LoginButton";
 import SignupForm from "./SignupForm";
 import UserDisplay from "./UserDisplay";
 import TotalDuration from "./TotalDuration";
+import Footer from "./Footer";
 
 export {
     Stopwatch,
@@ -17,5 +18,6 @@ export {
     LoginButton,
     SignupForm,
     UserDisplay,
-    TotalDuration
+    TotalDuration,
+    Footer
 }

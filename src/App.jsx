@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import appwriteService from './appwrite/backend'
 import { logout,login } from './features/AuthSlice'
+import {Footer} from './components'
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
       </Routes>
+      <Footer />
     </>
   )
 }
