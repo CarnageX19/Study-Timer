@@ -1,23 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../features/AuthSlice'; // importing logout action
+import { logout } from '../features/AuthSlice';
 
 function LoginButton() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, email } = useSelector((state) => state.auth); // Selecting status and email from authSlice
   const currentTheme = useSelector((state)=>state.theme.theme)
+  const status = useSelector((state) => state.auth.status)
   const handleLoginClick = () => {
-    if (!status) {
-      // If the user is not logged in, redirect to the login form
-      navigate("/login");
-    }
+      navigate("/login"); //redirect to login form
   };
 
   const handleLogoutClick = () => {
-    // If the user is logged in, logout using redux
     dispatch(logout());
+    localStorage.getItem("study-timer-user")
+    localStorage.removeItem("study-timer-user")
   };
 
   return (

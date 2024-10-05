@@ -19,6 +19,7 @@ function LoginForm() {
         dispatch(login({ email }));
         await appwriteService.syncLocalStorage(email)//update local storage with database entries
         navigate("/"); // Redirect to home after login
+        localStorage.setItem("study-timer-user",email)
       }
       else
         setErrorMessage("Incorrect Username or Password")
