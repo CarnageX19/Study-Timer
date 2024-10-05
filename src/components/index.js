@@ -1,4 +1,4 @@
-import Stopwatch from "./stopwatch";
+import Stopwatch from "./Stopwatch";
 import ThemeToggler from "./ThemeToggler";
 import Header from "./Header";
 import StudyLog from "./StudyLog";
