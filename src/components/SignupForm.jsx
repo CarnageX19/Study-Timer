@@ -43,6 +43,7 @@ function SignupForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           className="w-full p-2 mb-4 border border-gray-300 rounded"
+          required
         />
 
         <input
@@ -51,6 +52,7 @@ function SignupForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           className="w-full p-2 mb-4 border border-gray-300 rounded"
+          required
         />
 
         <button
