@@ -3,6 +3,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../features/AuthSlice";
 import appwriteService from "../appwrite/backend";
+import HomeButton from "./HomeButton";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -74,7 +75,9 @@ function LoginForm() {
         >
           Dont Have an account? Signup
         </button>
-
+        <div className="flex justify-center mt-6">
+          <HomeButton />
+        </div>
         {errorMessage && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
       </div>
     </div>

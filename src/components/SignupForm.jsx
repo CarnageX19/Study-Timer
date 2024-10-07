@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/backend";
 import { login } from "../features/AuthSlice";
+import HomeButton from "./HomeButton";
 
 function SignupForm() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ function SignupForm() {
         navigate("/")
       }
     } catch (error) {
-      setErrorMessage(error.message); // Show error message
+      setErrorMessage(error.message); 
     }
   };
 
@@ -68,7 +69,9 @@ function SignupForm() {
         >
           Already have an account? Login
         </button>
-
+        <div className="flex justify-center mt-6">
+          <HomeButton />
+        </div>
         {errorMessage && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
       </div>
     </div>
