@@ -18,6 +18,7 @@ function Footer() {
           currentTheme === 'light' ? 'text-black' : 'text-white'
         } hover:text-orange-600`}
       >
+        Source Code &nbsp;
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

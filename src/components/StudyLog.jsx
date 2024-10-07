@@ -6,9 +6,9 @@ export default function StudyLog() {
   const records = JSON.parse(localStorage.getItem('study-record')) || {};
 
   return (
-    <div className="flex justify-end w-full">
-      <div className={`p-4 w-1/3 `}>
-        <h2 className={`text-xl mb-4 ${currentTheme === 'light' ? 'text-black' : 'text-white'}`}>
+    <div className="flex justify-end w-full p-6">
+      <div className={`p-6 w-full md:w-2/3 lg:w-1/2 ${currentTheme === 'light' ? 'bg-gray-100' : 'bg-gray-800'} rounded-lg shadow-lg`}>
+        <h2 className={`text-2xl mb-4 ${currentTheme === 'light' ? 'text-black' : 'text-white'}`}>
           Study Log
         </h2>
         {Object.keys(records).length === 0 ? (
@@ -18,10 +18,10 @@ export default function StudyLog() {
         ) : (
           Object.entries(records).map(([date, times], index) => (
             <div key={index} className="mb-6">
-              <h3 className={`text-lg font-semibold ${currentTheme === 'light' ? 'text-black' : 'text-white'} mb-2`}>
+              <h3 className={`text-lg font-semibold mb-2 ${currentTheme === 'light' ? 'text-black' : 'text-white'}`}>
                 {date}
               </h3>
-              <ul className="list-disc pl-5 mt-2 space-y-1">
+              <ul className="list-disc pl-5 mt-2 space-y-2">
                 {times.map((time, i) => (
                   <li key={i} className={`${currentTheme === 'light' ? 'text-black' : 'text-white'}`}>
                     {time}
